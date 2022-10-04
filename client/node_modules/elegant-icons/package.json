@@ -1,0 +1,29 @@
+{
+  "name": "elegant-icons",
+  "version": "0.0.1",
+  "description": "Elegant Themes' Elegant Icon font as a npm package",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/laurentiustamate94/elegant-icons.git"
+  },
+  "keywords": [
+    "elegant",
+    "icons",
+    "themes",
+    "Elegant Icon",
+    "Elegant Themes"
+  ],
+  "author": "Laurentiu Stamate <laurentiustamate94@yahoo.com> (https://github.com/laurentiustamate94)",
+  "license": "MIT",
+  "homepage": "https://github.com/laurentiustamate94/elegant-icons",
+  "bugs": {
+    "url": "https://github.com/laurentiustamate94/elegant-icons/issues"
+  },
+   "maintainers": [
+    "laurentiu <laurentiustamate94@yahoo.com>"
+  ]
+}

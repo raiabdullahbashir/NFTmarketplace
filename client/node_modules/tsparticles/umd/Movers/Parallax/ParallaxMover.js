@@ -1,0 +1,43 @@
+(function (factory) {
+    if (typeof module === "object" && typeof module.exports === "object") {
+        var v = factory(require, exports);
+        if (v !== undefined) module.exports = v;
+    }
+    else if (typeof define === "function" && define.amd) {
+        define(["require", "exports", "../../Utils/Utils"], factory);
+    }
+})(function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.ParallaxMover = void 0;
+    const Utils_1 = require("../../Utils/Utils");
+    class ParallaxMover {
+        init() {
+        }
+        isEnabled(particle) {
+            return (!(0, Utils_1.isSsr)() &&
+                !particle.destroyed &&
+                particle.container.actualOptions.interactivity.events.onHover.parallax.enable);
+        }
+        move(particle) {
+            const container = particle.container, options = container.actualOptions;
+            if ((0, Utils_1.isSsr)() || !options.interactivity.events.onHover.parallax.enable) {
+                return;
+            }
+            const parallaxForce = options.interactivity.events.onHover.parallax.force, mousePos = container.interactivity.mouse.position;
+            if (!mousePos) {
+                return;
+            }
+            const canvasCenter = {
+                x: container.canvas.size.width / 2,
+                y: container.canvas.size.height / 2,
+            }, parallaxSmooth = options.interactivity.events.onHover.parallax.smooth, factor = particle.getRadius() / parallaxForce, centerDistance = {
+                x: (mousePos.x - canvasCenter.x) * factor,
+                y: (mousePos.y - canvasCenter.y) * factor,
+            };
+            particle.offset.x += (centerDistance.x - particle.offset.x) / parallaxSmooth;
+            particle.offset.y += (centerDistance.y - particle.offset.y) / parallaxSmooth;
+        }
+    }
+    exports.ParallaxMover = ParallaxMover;
+});

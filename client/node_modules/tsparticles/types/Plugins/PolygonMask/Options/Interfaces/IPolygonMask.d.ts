@@ -1,0 +1,19 @@
+import { PolygonMaskInlineArrangement, PolygonMaskInlineArrangementAlt } from "../../Enums/PolygonMaskInlineArrangement";
+import type { ICoordinates } from "../../../../Core/Interfaces/ICoordinates";
+import type { IPolygonMaskDraw } from "./IPolygonMaskDraw";
+import type { IPolygonMaskInline } from "./IPolygonMaskInline";
+import type { IPolygonMaskLocalSvg } from "./IPolygonMaskLocalSvg";
+import type { IPolygonMaskMove } from "./IPolygonMaskMove";
+import type { PolygonMaskType } from "../../Enums/PolygonMaskType";
+export interface IPolygonMask {
+    draw: IPolygonMaskDraw;
+    enable: boolean;
+    inline: IPolygonMaskInline;
+    inlineArrangement: PolygonMaskInlineArrangement | keyof typeof PolygonMaskInlineArrangement | PolygonMaskInlineArrangementAlt;
+    move: IPolygonMaskMove;
+    position?: ICoordinates;
+    scale: number;
+    type: PolygonMaskType;
+    url?: string;
+    data?: string | IPolygonMaskLocalSvg;
+}
