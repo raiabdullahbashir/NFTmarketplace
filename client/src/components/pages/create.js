@@ -423,8 +423,7 @@ const Create = (props) => {
                 onClick={previewItem}
                 style={{ border: "none", background: "none" }}
               >
-                {" "}
-                <h5>Preview item</h5>{" "}
+                <h5>Preview item</h5>
               </button>
               <div className="nft__item m-0">
                 <div className="de_countdown">

@@ -4,7 +4,7 @@ const multer = require("multer");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./uploads/");
+    cb(null, "./client/src/components/uploads/");
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname);
@@ -16,7 +16,7 @@ const upload = multer({ storage: storage });
 router.post("/createNft", upload.single("nftImage"), async (req, res) => {
   try {
     const { title, description, price } = req.body;
-    console.log("file: " + req.file);
+    // console.log("file: " + req.file);
     const nftImage = req.file.filename;
     const newNft = new NFTs({
       title,
@@ -27,6 +27,17 @@ router.post("/createNft", upload.single("nftImage"), async (req, res) => {
     await newNft.save();
 
     res.status(200).json({ msg: "Successfully Created." });
+  } catch (err) {
+    return res.status(500).json({ msg: err.message });
+  }
+});
+
+router.get("/getNft", async (req, res, next) => {
+  try {
+    const nfts = await NFTs.find({});
+    // console.log("nfts: " + nfts);
+    if (!nfts) res.status(400).json({ msg: "No data found" });
+    res.status(200).json(nfts);
   } catch (err) {
     return res.status(500).json({ msg: err.message });
   }
