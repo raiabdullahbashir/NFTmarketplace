@@ -1,68 +1,68 @@
-import React,{useEffect,useState} from 'react';
-import { Router, Location, Redirect } from '@reach/router';
-import ScrollToTopBtn from './menu/ScrollToTop';
-import Header from './menu/header';
-import Home from './pages/home';
-import HomeGrey from './pages/homeGrey';
-import Home1 from './pages/home1';
-import Home1grey from './pages/home1Grey';
-import Home2 from './pages/home2';
-import Home2grey from './pages/home2Grey';
-import Home3 from './pages/home3';
-import Home4 from './pages/home4';
-import Home5 from './pages/home5';
-import Explore from './pages/explore';
-import Exploregrey from './pages/exploreGrey';
-import Explore2 from './pages/explore2';
-import Explore2grey from './pages/explore2Grey';
-import ExploreOpensea from './pages/Opensea/explore';
+import React, { useEffect, useState } from "react";
+import { Router, Location, Redirect } from "@reach/router";
+import ScrollToTopBtn from "./menu/ScrollToTop";
+import Header from "./menu/header";
+import Home from "./pages/home";
+import HomeGrey from "./pages/homeGrey";
+import Home1 from "./pages/home1";
+import Home1grey from "./pages/home1Grey";
+import Home2 from "./pages/home2";
+import Home2grey from "./pages/home2Grey";
+import Home3 from "./pages/home3";
+import Home4 from "./pages/home4";
+import Home5 from "./pages/home5";
+import Explore from "./pages/explore";
+import Exploregrey from "./pages/exploreGrey";
+import Explore2 from "./pages/explore2";
+import Explore2grey from "./pages/explore2Grey";
+import ExploreOpensea from "./pages/Opensea/explore";
 // import Rangking from './pages/rangking';
-import RankingRedux from './pages/RankingRedux';
-import RankingReduxgrey from './pages/RankingReduxGrey';
-import Auction from './pages/Auction';
-import Auctiongrey from './pages/AuctionGrey';
-import Helpcenter from './pages/helpcenter';
-import Helpcentergrey from './pages/helpcenterGrey';
-import Colection from './pages/colection';
-import Colectiongrey from './pages/colectionGrey';
+import RankingRedux from "./pages/RankingRedux";
+import RankingReduxgrey from "./pages/RankingReduxGrey";
+import Auction from "./pages/Auction";
+import Auctiongrey from "./pages/AuctionGrey";
+import Helpcenter from "./pages/helpcenter";
+import Helpcentergrey from "./pages/helpcenterGrey";
+import Colection from "./pages/colection";
+import Colectiongrey from "./pages/colectionGrey";
 // import ItemDetail from './pages/ItemDetail';
-import ItemDetailRedux from './pages/ItemDetailRedux';
-import ItemDetailReduxgrey from './pages/ItemDetailReduxGrey';
-import Author from './pages/Author';
-import AuthorGrey from './pages/AuthorGrey';
-import AuthorOpensea from './pages/Opensea/author';
-import Wallet from './pages/wallet';
-import WalletGrey from './pages/walletGrey';
-import Login from './pages/login';
-import Logingrey from './pages/loginGrey';
-import LoginTwo from './pages/loginTwo';
-import LoginTwogrey from './pages/loginTwoGrey';
-import Register from './pages/register';
-import Registergrey from './pages/registerGrey';
-import Price from './pages/price';
-import Works from './pages/works';
-import News from './pages/news';
-import NewsSingle from './pages/newsSingle';
-import Create from './pages/create';
-import Creategrey from './pages/createGrey';
-import Create2 from './pages/create2';
-import Create3 from './pages/create3';
-import Createoption from './pages/createOptions';
-import Activity from './pages/activity';
-import Activitygrey from './pages/activityGrey';
-import Contact from './pages/contact';
-import Contactgrey from './pages/contactGrey';
-import ElegantIcons from './pages/elegantIcons';
-import EtlineIcons from './pages/etlineIcons';
-import FontAwesomeIcons from './pages/fontAwesomeIcons';
-import Accordion from './pages/accordion';
-import Alerts from './pages/alerts';
-import Progressbar from './pages/progressbar';
-import Tabs from './pages/tabs';
-import Minter from './pages/Minter';
-import Mintergrey from './pages/MinterGrey';
+import ItemDetailRedux from "./pages/ItemDetailRedux";
+import ItemDetailReduxgrey from "./pages/ItemDetailReduxGrey";
+import Author from "./pages/Author";
+import AuthorGrey from "./pages/AuthorGrey";
+import AuthorOpensea from "./pages/Opensea/author";
+import Wallet from "./pages/wallet";
+import WalletGrey from "./pages/walletGrey";
+import Login from "./pages/Login";
+// import Logingrey from "./pages/loginGrey";
+// import LoginTwo from "./pages/loginTwo";
+// import LoginTwogrey from "./pages/loginTwoGrey";
+import Register from "./pages/Register";
+import Registergrey from "./pages/registerGrey";
+import Price from "./pages/price";
+import Works from "./pages/works";
+import News from "./pages/news";
+import NewsSingle from "./pages/newsSingle";
+import Create from "./pages/create";
+import Creategrey from "./pages/createGrey";
+import Create2 from "./pages/create2";
+import Create3 from "./pages/create3";
+import Createoption from "./pages/createOptions";
+import Activity from "./pages/activity";
+import Activitygrey from "./pages/activityGrey";
+import Contact from "./pages/contact";
+import Contactgrey from "./pages/contactGrey";
+import ElegantIcons from "./pages/elegantIcons";
+import EtlineIcons from "./pages/etlineIcons";
+import FontAwesomeIcons from "./pages/fontAwesomeIcons";
+import Accordion from "./pages/accordion";
+import Alerts from "./pages/alerts";
+import Progressbar from "./pages/progressbar";
+import Tabs from "./pages/tabs";
+import Minter from "./pages/Minter";
+import Mintergrey from "./pages/MinterGrey";
 
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
   :root {
@@ -71,32 +71,27 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 export const ScrollTop = ({ children, location }) => {
-  React.useEffect(() => window.scrollTo(0,0), [location])
-  return children
-}
+  React.useEffect(() => window.scrollTo(0, 0), [location]);
+  return children;
+};
 
 const PosedRouter = ({ children }) => (
   <Location>
     {({ location }) => (
-      <div id='routerhang'>
+      <div id="routerhang">
         <div key={location.key}>
-          <Router location={location}>
-            {children}
-          </Router>
+          <Router location={location}>{children}</Router>
         </div>
       </div>
     )}
   </Location>
 );
 
-
-
-
-const app= () => (
+const App = () => (
   <div className="wraper">
-  <GlobalStyles />
-    <Header/>
-      <PosedRouter>
+    <GlobalStyles />
+    <Header />
+    <PosedRouter>
       <ScrollTop path="/">
         <Home exact path="/">
           <Redirect to="/home" />
@@ -130,9 +125,10 @@ const app= () => (
         <Wallet path="/wallet" />
         <WalletGrey path="/walletGrey" />
         <Login path="/login" />
-        <Logingrey path="/loginGrey" />
-        <LoginTwo path="/loginTwo" />
-        <LoginTwogrey path="/loginTwoGrey" />
+
+        {/* <Logingrey path="/loginGrey" /> */}
+        {/* <LoginTwo path="/loginTwo" /> */}
+        {/* <LoginTwogrey path="/loginTwoGrey" /> */}
         <Register path="/register" />
         <Registergrey path="/registerGrey" />
         <Price path="/price" />
@@ -157,9 +153,9 @@ const app= () => (
         <Tabs path="/tabs" />
         <Minter path="/mint" />
         <Mintergrey path="/minter" />
-        </ScrollTop>
-      </PosedRouter>
+      </ScrollTop>
+    </PosedRouter>
     <ScrollToTopBtn />
   </div>
 );
-export default app;
+export default App;
