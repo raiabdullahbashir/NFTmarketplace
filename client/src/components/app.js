@@ -63,6 +63,13 @@ import Minter from "./pages/Minter";
 import Mintergrey from "./pages/MinterGrey";
 
 import { createGlobalStyle } from "styled-components";
+import {
+  dispatchLogin,
+  fetchUser,
+  dispatchGetUser,
+} from "./../store/actions/thunks/authAction";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 
 const GlobalStyles = createGlobalStyle`
   :root {
@@ -87,75 +94,120 @@ const PosedRouter = ({ children }) => (
   </Location>
 );
 
-const App = () => (
-  <div className="wraper">
-    <GlobalStyles />
-    <Header />
-    <PosedRouter>
-      <ScrollTop path="/">
-        <Home exact path="/">
-          <Redirect to="/home" />
-        </Home>
-        <HomeGrey path="/homeGrey" />
-        <Home1 path="/home1" />
-        <Home1grey path="/home1Grey" />
-        <Home2 path="/home2" />
-        <Home2grey path="/home2Grey" />
-        <Home3 path="/home3" />
-        <Home4 path="/home4" />
-        <Home5 path="/home5" />
-        <Explore path="/explore" />
-        <Exploregrey path="/exploreGrey" />
-        <Explore2 path="/explore2" />
-        <Explore2grey path="/explore2Grey" />
-        <ExploreOpensea path="/exploreOpensea" />
-        <RankingRedux path="/rangking" />
-        <RankingReduxgrey path="/rangkingGrey" />
-        <Auction path="/Auction" />
-        <Auctiongrey path="/AuctionGrey" />
-        <Helpcenter path="/helpcenter" />
-        <Helpcentergrey path="/helpcenterGrey" />
-        <Colection path="/colection/:collectionId" />
-        <Colectiongrey path="/colectionGrey/:collectionId" />
-        <ItemDetailRedux path="/ItemDetail/:nftId" />
-        <ItemDetailReduxgrey path="/ItemDetailGrey/:nftId" />
-        <Author path="/Author/:authorId" />
-        <AuthorGrey path="/AuthorGrey/:authorId" />
-        <AuthorOpensea path="/AuthorOpensea" />
-        <Wallet path="/wallet" />
-        <WalletGrey path="/walletGrey" />
-        <Login path="/login" />
+const App = () => {
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.token);
+  const auth = useSelector((state) => state.auth);
 
-        {/* <Logingrey path="/loginGrey" /> */}
-        {/* <LoginTwo path="/loginTwo" /> */}
-        {/* <LoginTwogrey path="/loginTwoGrey" /> */}
-        <Register path="/register" />
-        <Registergrey path="/registerGrey" />
-        <Price path="/price" />
-        <Works path="/works" />
-        <News path="/news" />
-        <NewsSingle path="/news/:postId" />
-        <Create path="/create" />
-        <Creategrey path="/createGrey" />
-        <Create2 path="/create2" />
-        <Create3 path="/create3" />
-        <Createoption path="/createOptions" />
-        <Activity path="/activity" />
-        <Activitygrey path="/activityGrey" />
-        <Contact path="/contact" />
-        <Contactgrey path="/contactGrey" />
-        <ElegantIcons path="/elegantIcons" />
-        <EtlineIcons path="/etlineIcons" />
-        <FontAwesomeIcons path="/fontAwesomeIcons" />
-        <Accordion path="/accordion" />
-        <Alerts path="/alerts" />
-        <Progressbar path="/progressbar" />
-        <Tabs path="/tabs" />
-        <Minter path="/mint" />
-        <Mintergrey path="/minter" />
-      </ScrollTop>
-    </PosedRouter>
-    <ScrollToTopBtn />
-  </div>
-);
+  useEffect(() => {
+    const firstLogin = localStorage.getItem("firstLogin");
+    // console.log("firstLogin", firstLogin);
+    if (firstLogin) {
+      const getToken = async () => {
+        const res = await axios.get(
+          "http://localhost:2190/user/refresh_token",
+
+          {
+            withCredentials: true,
+            // credentials: "include",
+          }
+        );
+        // console.log("access_token:_________" + res.data.access_token);
+        dispatch({ type: "GET_TOKEN", payload: res.data.access_token });
+      };
+      getToken();
+    }
+  }, [auth.isLogged, dispatch]);
+  // console.log("auth.............: " + auth);
+  // console.log("auth.Logged............: " + auth.isLogged);
+  useEffect(() => {
+    // console.log("token out:_____.............: " + token);
+
+    if (token) {
+      // console.log("token in:_____.............: " + token);
+
+      const getUser = () => {
+        dispatch(dispatchLogin());
+
+        return fetchUser(token).then((res) => {
+          dispatch(dispatchGetUser(res));
+        });
+      };
+      getUser();
+    }
+  }, [token, dispatch]);
+  // console.log("auth___________.............: " + auth.isLogged);
+
+  return (
+    <div className="wraper">
+      <GlobalStyles />
+      <Header />
+      <PosedRouter>
+        <ScrollTop path="/">
+          <Home exact path="/">
+            <Redirect to="/home" />
+          </Home>
+          <HomeGrey path="/homeGrey" />
+          <Home1 path="/home1" />
+          <Home1grey path="/home1Grey" />
+          <Home2 path="/home2" />
+          <Home2grey path="/home2Grey" />
+          <Home3 path="/home3" />
+          <Home4 path="/home4" />
+          <Home5 path="/home5" />
+          <Explore path="/explore" />
+          <Exploregrey path="/exploreGrey" />
+          <Explore2 path="/explore2" />
+          <Explore2grey path="/explore2Grey" />
+          <ExploreOpensea path="/exploreOpensea" />
+          <RankingRedux path="/rangking" />
+          <RankingReduxgrey path="/rangkingGrey" />
+          <Auction path="/Auction" />
+          <Auctiongrey path="/AuctionGrey" />
+          <Helpcenter path="/helpcenter" />
+          <Helpcentergrey path="/helpcenterGrey" />
+          <Colection path="/colection/:collectionId" />
+          <Colectiongrey path="/colectionGrey/:collectionId" />
+          <ItemDetailRedux path="/ItemDetail/:nftId" />
+          <ItemDetailReduxgrey path="/ItemDetailGrey/:nftId" />
+          <Author path="/Author/:authorId" />
+          <AuthorGrey path="/AuthorGrey/:authorId" />
+          <AuthorOpensea path="/AuthorOpensea" />
+          <Wallet path="/wallet" />
+          <WalletGrey path="/walletGrey" />
+          <Login path="/login" />
+
+          {/* <Logingrey path="/loginGrey" /> */}
+          {/* <LoginTwo path="/loginTwo" /> */}
+          {/* <LoginTwogrey path="/loginTwoGrey" /> */}
+          <Register path="/register" />
+          <Registergrey path="/registerGrey" />
+          <Price path="/price" />
+          <Works path="/works" />
+          <News path="/news" />
+          <NewsSingle path="/news/:postId" />
+          <Create path="/create" />
+          <Creategrey path="/createGrey" />
+          <Create2 path="/create2" />
+          <Create3 path="/create3" />
+          <Createoption path="/createOptions" />
+          <Activity path="/activity" />
+          <Activitygrey path="/activityGrey" />
+          <Contact path="/contact" />
+          <Contactgrey path="/contactGrey" />
+          <ElegantIcons path="/elegantIcons" />
+          <EtlineIcons path="/etlineIcons" />
+          <FontAwesomeIcons path="/fontAwesomeIcons" />
+          <Accordion path="/accordion" />
+          <Alerts path="/alerts" />
+          <Progressbar path="/progressbar" />
+          <Tabs path="/tabs" />
+          <Minter path="/mint" />
+          <Mintergrey path="/minter" />
+        </ScrollTop>
+      </PosedRouter>
+      <ScrollToTopBtn />
+    </div>
+  );
+};
 export default App;

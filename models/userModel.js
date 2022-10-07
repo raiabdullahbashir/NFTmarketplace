@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema(
     },
     metaaddress: {
       type: String,
-      required: true,
+      // required: true,
       trim: true,
     },
     role: {

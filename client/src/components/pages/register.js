@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Navigate } from "react-router-dom";
-
+import { useDispatch, connect } from "react-redux";
+import PropTypes from "prop-types";
 import Footer from "../components/footer";
 import { createGlobalStyle } from "styled-components";
 import {
@@ -10,6 +10,9 @@ import {
   isMatch,
   isLength,
 } from "../utils/validation/Validation";
+import { Redirect } from "@reach/router";
+import { useSelector } from "react-redux";
+import { dispatchLogin } from "./../../store/actions/thunks/authAction";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -52,9 +55,12 @@ const initialState = {
   password: "",
   password2: "",
 };
-function Register({ setAlert, isLogged }) {
-  const [user, setUser] = useState(initialState);
+function Register() {
+  const auth = useSelector((state) => state.auth);
+  const { isLogged } = auth;
+  const dispatch = useDispatch();
 
+  const [user, setUser] = useState(initialState);
   const { name, email, password, password2, username, phoneNo } = user;
 
   const handleChangeInput = (e) => {
@@ -72,31 +78,25 @@ function Register({ setAlert, isLogged }) {
       isEmpty(phoneNo) ||
       isEmpty(username)
     ) {
-      setAlert("Please fill in all fields.", "danger");
-
       return setUser({
         ...user,
       });
     }
     if (!isEmail(email)) {
-      setAlert("Invalid email.", "danger");
-
       return setUser({ ...user });
     }
     if (isLength(password)) {
-      setAlert("Password must be at least 6 characters.", "danger");
-
       return setUser({
         ...user,
       });
     }
     if (!isMatch(password, password2)) {
-      setAlert("Passwords do not match", "danger");
+      // setAlert("Passwords do not match", "danger");
 
       return setUser({ ...user, err: "Password did not match.", success: "" });
     }
     try {
-      await axios.post("/user/register", {
+      await axios.post("http://localhost:2190/user/register", {
         name,
         email,
         password,
@@ -104,13 +104,15 @@ function Register({ setAlert, isLogged }) {
         phoneNo,
       });
       setUser({ ...user });
+      localStorage.setItem("firstLogin", true);
+      dispatch(dispatchLogin());
     } catch (err) {
       setUser({ ...user });
     }
   };
-  // if (isLogged) {
-  //   return <Navigate to="/dashboard" />;
-  // }
+  if (isLogged) {
+    return <Redirect to="/" />;
+  }
   return (
     <div>
       <GlobalStyles />

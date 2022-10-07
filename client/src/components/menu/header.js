@@ -6,6 +6,8 @@ import Breakpoint, {
 //import { header } from 'react-bootstrap';
 import { Link } from "@reach/router";
 import useOnclickOutside from "react-cool-onclickoutside";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 setDefaultBreakpoints([{ xs: 0 }, { l: 1199 }, { xl: 1200 }]);
 
@@ -23,6 +25,21 @@ const NavLink = (props) => (
 );
 
 const Header = function ({ className }) {
+  const auth = useSelector((state) => state.auth);
+  const { isLogged } = auth;
+  console.log("Header auth: " + isLogged);
+
+  const handleLogout = () => {
+    try {
+      console.log("in");
+      axios.get("http:localhost:2190/user/logout");
+      localStorage.removeItem("firstLogin");
+      window.location.href = "/";
+    } catch (err) {
+      window.location.href = "/";
+    }
+  };
+
   const [openMenu, setOpenMenu] = React.useState(false);
   const [openMenu1, setOpenMenu1] = React.useState(false);
   const [openMenu2, setOpenMenu2] = React.useState(false);
@@ -275,11 +292,15 @@ const Header = function ({ className }) {
                       AUCTION
                     </NavLink>
                   </div>
-                  <div className="navbar-item">
-                    <NavLink to="/login" onClick={() => btn_icon(!showmenu)}>
-                      LOGIN
-                    </NavLink>
-                  </div>
+                  {/* <div className="navbar-item">
+                    {isLogged ? (
+                      <NavLink onClick={handleLogout}>LOGOUb544jjT</NavLink>
+                    ) : (
+                      <NavLink to="/login" onClick={() => btn_icon(!showmenu)}>
+                        LOGIN
+                      </NavLink>
+                    )}
+                  </div> */}
                   <div className="search">
                     <input
                       id="quick_search"
@@ -439,12 +460,21 @@ const Header = function ({ className }) {
                 <div className="navbar-item">
                   <NavLink to="/colection/1">Collection</NavLink>
                 </div>
+                <div className="navbar-item">
+                  {isLogged ? null : <NavLink to="/register">REGISTER</NavLink>}
+                </div>
 
                 <div className="navbar-item">
-                  <NavLink to="/login">
-                    LOGIN
-                    <span className="lines"></span>
-                  </NavLink>
+                  {isLogged ? (
+                    <a onClick={handleLogout} href="/">
+                      <i className="fas fa-sign-out-alt" />
+                      <b className="hide-sm">LOGOUT</b>
+                    </a>
+                  ) : (
+                    <NavLink to="/login" onClick={() => btn_icon(!showmenu)}>
+                      LOGIN
+                    </NavLink>
+                  )}
                 </div>
                 {/* <div className='navbar-item'> */}
 

@@ -9,7 +9,7 @@ export const dispatchLogin = () => {
 };
 
 export const fetchUser = async (token) => {
-  const res = await axios.get("/user/info", {
+  const res = await axios.get("http://localhost:2190/user/info", {
     headers: { Authorization: token },
   });
   return res;

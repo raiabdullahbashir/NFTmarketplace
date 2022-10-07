@@ -13,8 +13,8 @@ export const rootReducer = combineReducers({
   authors: authorListReducer,
   filters: filterReducer,
   blogs: blogPostsReducer,
-  authReducer: authReducer,
-  tokenReducer: tokenReducer,
+  auth: authReducer,
+  token: tokenReducer,
 });
 
 const reducers = (state, action) => rootReducer(state, action);

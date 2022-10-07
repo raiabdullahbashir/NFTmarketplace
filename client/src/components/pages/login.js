@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Footer from "../components/footer";
 import { createGlobalStyle } from "styled-components";
-import PropTypes from "prop-types";
-import { useDispatch, connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 import { dispatchLogin } from "./../../store/actions/thunks/authAction";
+import { Redirect } from "@reach/router";
 
 import { isEmpty } from "../utils/validation/Validation";
 import { useSelector } from "react-redux";
@@ -46,13 +46,12 @@ const initialState = {
   email: "",
   password: "",
 };
-// const Login = ({ auth: { isLogged, isAdmin } }) => {
+
 const Login = () => {
-  // const auth = useSelector((state) => state.auth);
-  // const { isLogged, isAdmin } = auth;
+  const auth = useSelector((state) => state.auth);
+  const { isLogged } = auth;
   const [user, setUser] = useState(initialState);
   const dispatch = useDispatch();
-
   const { email, password } = user;
 
   const handleChangeInput = (e) => {
@@ -62,29 +61,33 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isEmpty(email) || isEmpty(password)) {
-      // setAlert("Please fill in all fields.", "danger");
-
       return setUser({
         ...user,
       });
     }
-
     try {
-      const res = await axios.post("/user/login", { email, password });
-      // setAlert(res.data.msg, "success");
+      await axios.post(
+        "http://localhost:2190/user/login/",
+        {
+          email,
+          password,
+        },
+        {
+          withCredentials: true,
+          // credentials: "include",
+        }
+      );
       setUser({ ...user });
 
       localStorage.setItem("firstLogin", true);
-
       dispatch(dispatchLogin());
-      // navigate("/dashboard");
-      // return <Navigate to="/dashboard" />
     } catch (err) {
-      // err?.response?.data?.msg
-      // && setAlert(err?.response?.data?.msg, "danger");
       setUser({ ...user });
     }
   };
+  if (isLogged) {
+    return <Redirect to="/" />;
+  }
   return (
     <div>
       <GlobalStyles />
@@ -182,13 +185,4 @@ const Login = () => {
   );
 };
 
-Login.propTypes = {
-  // setAlert: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-});
-export default connect(mapStateToProps)(Login);
-// export default Login;
+export default Login;
