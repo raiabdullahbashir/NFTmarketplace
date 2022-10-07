@@ -53,7 +53,6 @@ const userCtrl = {
       //if logged in success fully then create access and refrash token
       const access_token = createAccessToken({ id: user._id });
       const refresh_token = createRefreshToken({ id: user._id });
-      console.log("refresh_token in login: " + refresh_token);
 
       //refresh token access api
       res.cookie("refresh_token", refresh_token, {
